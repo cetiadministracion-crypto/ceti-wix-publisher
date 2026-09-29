@@ -1,3 +1,7 @@
 ceti-publisher
 .env
 .DS_Store
+
+# Generated CETI blog posts
+posts/*
+!posts/.gitkeep
