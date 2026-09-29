@@ -32,13 +32,15 @@ Escribe aquí el contenido.
 Escribe aquí el cierre del artículo.
 `
 
-func Init(folder string) error {
+func Init(name string) (string, error) {
+	folder := filepath.Join("posts", name)
+
 	if _, err := os.Stat(folder); err == nil {
-		return fmt.Errorf("folder already exists: %s", folder)
+		return "", fmt.Errorf("post already exists: %s", folder)
 	}
 
 	if err := os.MkdirAll(folder, 0755); err != nil {
-		return fmt.Errorf("create folder: %w", err)
+		return "", fmt.Errorf("create post folder: %w", err)
 	}
 
 	if err := os.WriteFile(
@@ -46,7 +48,7 @@ func Init(folder string) error {
 		[]byte(defaultPostYAML),
 		0644,
 	); err != nil {
-		return fmt.Errorf("create post.yaml: %w", err)
+		return "", fmt.Errorf("create post.yaml: %w", err)
 	}
 
 	if err := os.WriteFile(
@@ -54,8 +56,8 @@ func Init(folder string) error {
 		[]byte(defaultArticle),
 		0644,
 	); err != nil {
-		return fmt.Errorf("create article.md: %w", err)
+		return "", fmt.Errorf("create article.md: %w", err)
 	}
 
-	return nil
+	return folder, nil
 }
