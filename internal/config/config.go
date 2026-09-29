@@ -6,14 +6,16 @@ import (
 )
 
 type Config struct {
-	APIKey string
-	SiteID string
+	APIKey   string
+	SiteID   string
+	MemberID string
 }
 
 func Load() (Config, error) {
 	cfg := Config{
-		APIKey: os.Getenv("WIX_API_KEY"),
-		SiteID: os.Getenv("WIX_SITE_ID"),
+		APIKey:   os.Getenv("WIX_API_KEY"),
+		SiteID:   os.Getenv("WIX_SITE_ID"),
+		MemberID: os.Getenv("WIX_MEMBER_ID"),
 	}
 
 	if cfg.APIKey == "" {
@@ -22,6 +24,10 @@ func Load() (Config, error) {
 
 	if cfg.SiteID == "" {
 		return Config{}, fmt.Errorf("WIX_SITE_ID is not set")
+	}
+
+	if cfg.MemberID == "" {
+		return Config{}, fmt.Errorf("WIX_MEMBER_ID is not set")
 	}
 
 	return cfg, nil
